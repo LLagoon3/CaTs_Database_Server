@@ -1,0 +1,34 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql-server
+    build:
+      context: ./
+      dockerfile: Dockerfile_mysql
+    volumes:
+      - ./mysql/:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  django:
+    container_name: django-server
+    depends_on:
+      - mysql
+    build:
+      context: ./
+      dockerfile: Dockerfile_django
+    volumes:
+      - ./django:/home/
+    command: 
+      - bash
+      - -c
+      - |
+        pip install -r requirements.txt &&
+        python3 manage.py makemigrations &&
+        python3 manage.py migrate &&
+        python3 manage.py makemigrations Api &&
+        python3 manage.py migrate &&
+        tail -f /dev/null
+    ports: 
+      - "8000:8000"
+    expose:
+      - "8000"
