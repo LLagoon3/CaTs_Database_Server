@@ -17,15 +17,25 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
+
 
 from . import views
 
+
 router = DefaultRouter()
 router.register('user', views.UserViewSet, basename='user')
-router.register('attendancelist', views.AttendanceListViewSet, basename='attendancelist')
-router.register('approveduser', views.ApprovedUserViewSet, basename='approveduser')
+router.register('userkakaoinfo', views.UserKakaoInfoViewSet, basename='userkakaoinfo')
+router.register('userfcmtoken', views.UserFCMTokenViewSet, basename='userfcmtoken')
 
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('token/login/', TokenObtainPairView.as_view(), name='user-login'),#username, password
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),#refresh: refresh -> return new access or just http 200
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),#token: refresh or access -> return http 200
 ]

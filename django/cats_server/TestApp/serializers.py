@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Test, User, AttedanceList, ApprovedUser
+from .models import Test, User, AttedanceList, ApprovedUser, APIModel
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,3 +21,7 @@ class ApprovedUserSerializer(serializers.ModelSerializer):
         model = ApprovedUser
         fields = ['student_id', 'gender', 'interest', 'kakao_id', 'motivation', 'phone_number']
 
+class APIModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = APIModel
+        fields = '__all__'

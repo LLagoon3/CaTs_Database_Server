@@ -25,4 +25,5 @@ class ApprovedUser(models.Model):
     motivation = models.TextField()
     phone_number = models.CharField(max_length = 12)
     
-    
+class APIModel(models.Model):
+    id = models.CharField(max_length = 255, primary_key = True)
