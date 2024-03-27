@@ -85,28 +85,68 @@ with open("./backup.json", 'r') as json_file:
 user_path = 'http://127.0.0.1:8000/api/user/'
 approveusers = data_dict['ApprovedUsers']
 kakao = data_dict['KAKAO']
+users = data_dict['Users']
 pendingusers = data_dict['PendingUsers']
 usercollections = data_dict['UserCollection']
 
-for user in kakao:
-    user_data = kakao[user]
-    for usercollection in usercollections:
-        if usercollections[usercollection]["name"] == user:
-            user_data['birth_date'] = usercollections[usercollection]['birth']
-    for approveuser in approveusers:
-        if "name" in approveusers[approveuser].keys() and "studentId" in approveusers[approveuser].keys():
-            if approveusers[approveuser]['name'] == user_data['nickname']:
-                user_data['student_id'] = approveusers[approveuser]['studentId']
-    # if 'birth_date' not in user_data.keys():
-    user_data['birth_date'] = "2000-01-01"
-    if user_data['fcmToken'] == None:  user_data['fcmToken'] = "None"
-    user_model = {
-        "student_id":user_data['student_id'],
-        "name":user_data['nickname'],
-        "fcm_token":user_data['fcmToken'],
-        "birth_date":user_data['birth_date']
-    }
-    print(user_model)
-    response = requests.post(url = user_path, json=user_model)
-    print(response.text)
+uid_dict = {
+    '3277957562': '2021040031',
+    '3330817225': '2017037015',
+    '3331519082': '2020038043',
+    '3332230053': '2021084050',
+    '3341293504': '2019037023',
+    '3351288104': '2020038016',
+    '3385482930': '2021040039',
+}
 
+# for user in kakao:
+#     user_data = kakao[user]
+#     for usercollection in usercollections:
+#         if usercollections[usercollection]["name"] == user:
+#             user_data['birth_date'] = usercollections[usercollection]['birth']
+#     for approveuser in approveusers:
+#         if "name" in approveusers[approveuser].keys() and "studentId" in approveusers[approveuser].keys():
+#             if approveusers[approveuser]['name'] == user_data['nickname']:
+#                 user_data['student_id'] = approveusers[approveuser]['studentId']
+#     # if 'birth_date' not in user_data.keys():
+#     user_data['birth_date'] = "2000-01-01"
+#     if user_data['fcmToken'] == None:  user_data['fcmToken'] = "None"
+#     user_model = {
+#         "student_id":user_data['student_id'],
+#         "name":user_data['nickname'],
+#         "fcm_token":user_data['fcmToken'],
+#         "birth_date":user_data['birth_date']
+#     }
+#     print(user_model)
+#     response = requests.post(url = user_path, json=user_model)
+#     print(response.text)
+
+attendance_path = 'http://127.0.0.1:8000/api/attendancelist/'
+
+def timeParsing(time: str):
+    if time[-2] == 'P':
+        timelist = time[:-3].split(':')
+        timelist[0] = str(int(timelist[0]) + 12)
+        time = timelist[0] + ':' + timelist[1]
+    return time
+
+# for uid in users:
+#     attendancelist = {
+#         'student_id' : uid_dict[uid],
+#         'date': '',
+#         'time': ''
+#     }
+#     attendance = users[uid]['attendanceList']
+#     for date in attendance:
+#         data = attendance[date]
+#         attendancelist['date'] = data['date']
+#         if 'time' in data.keys():
+#             attendancelist['time'] = timeParsing(data['time'])
+#         else:
+#             attendancelist['time'] = None
+#         print(attendancelist)
+#         response = requests.post(url = attendance_path, json=attendancelist)
+#         print(response)
+
+#### Header -> access Token ####
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
