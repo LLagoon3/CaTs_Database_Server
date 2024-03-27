@@ -22,8 +22,10 @@ from . import views
 
 router = DefaultRouter()
 router.register('user', views.UserViewSet, basename='user')
-router.register('test', views.MultiModelCRUDViewSet, basename='test')
+# router.register('test', views.MultiModelCRUDViewSet, basename='test')
+# router.register('apimodel', views.APIModelGenericView.as_view(), basename='apimodel')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('apimodel/', views.APIModelGenericView.as_view()),
 ]

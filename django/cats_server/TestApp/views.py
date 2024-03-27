@@ -68,32 +68,48 @@ class UserViewSet(ViewSet):
     
 from rest_framework import viewsets, mixins
 
-class MultiModelCRUDViewSet(
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
-):
-    queryset1 = User.objects.all()
-    queryset2 = ApprovedUser.objects.all()
+# class MultiModelCRUDViewSet(
+#     mixins.ListModelMixin,
+#     mixins.RetrieveModelMixin,
+#     mixins.CreateModelMixin,
+#     mixins.UpdateModelMixin,
+#     mixins.DestroyModelMixin,
+#     viewsets.GenericViewSet
+# ):
+#     queryset1 = User.objects.all()
+#     queryset2 = ApprovedUser.objects.all()
     
-    serializer_class1 = UserSerializer
-    serializer_class2 = ApprovedUserSerializer
+#     serializer_class1 = UserSerializer
+#     serializer_class2 = ApprovedUserSerializer
 
-    def get_queryset(self):
-        if self.action in ['list', 'retrieve', 'create', 'update', 'partial_update', 'destroy']:
-            if self.request.path.startswith('/TestApp/test/user/'):
-                return self.queryset1
-            elif self.request.path.startswith('/TestApp/test/approveduser/'):
-                return self.queryset2
-        return None
+#     def get_queryset(self):
+#         if self.action in ['list', 'retrieve', 'create', 'update', 'partial_update', 'destroy']:
+#             if self.request.path.startswith('/TestApp/test/user/'):
+#                 return self.queryset1
+#             elif self.request.path.startswith('/TestApp/test/approveduser/'):
+#                 return self.queryset2
+#         return None
 
-    def get_serializer_class(self):
-        if self.action in ['list', 'retrieve', 'create', 'update', 'partial_update', 'destroy']:
-            if self.request.path.startswith('/TestApp/test/user/'):
-                return self.serializer_class1
-            elif self.request.path.startswith('/TestApp/test/approveduser/'):
-                return self.serializer_class2
-        return None
+#     def get_serializer_class(self):
+#         if self.action in ['list', 'retrieve', 'create', 'update', 'partial_update', 'destroy']:
+#             if self.request.path.startswith('/TestApp/test/user/'):
+#                 return self.serializer_class1
+#             elif self.request.path.startswith('/TestApp/test/approveduser/'):
+#                 return self.serializer_class2
+#         return None
+    
+from rest_framework import generics, mixins
+from rest_framework.authentication import BaseAuthentication
+from rest_framework.permissions import BasePermission
+from django.db.models.query import QuerySet
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .serializers import APIModelSerializer
+from .models import APIModel
+
+class APIModelGenericView(generics.ListCreateAPIView,
+                        generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = APIModel.objects.all()
+    serializer_class = APIModelSerializer

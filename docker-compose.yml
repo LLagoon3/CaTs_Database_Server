@@ -7,12 +7,25 @@ services:
       dockerfile: Dockerfile_mysql
     volumes:
       - ./mysql/:/var/lib/mysql
+      - ./mysql_backup/:/var/lib/mysql_backup
+    # command: 
+    #   - bash
+    #   - -c
+    #   - |
+    #     mkdir /var/lib/mysql/backup &&
+    #     python3 manage.py makemigrations &&
+        
     ports:
       - "3306:3306"
   django:
     container_name: django-server
     depends_on:
       - mysql
+    healthcheck:
+      test: ["CMD", "curl", "-f", "0.0.0.0:3306"]  # db 서비스의 상태를 확인하는 테스트
+      interval: 10s  # 10초마다 테스트 수행
+      retries: 5  # 최대 5번 재시도
+      timeout: 5s
     build:
       context: ./
       dockerfile: Dockerfile_django
