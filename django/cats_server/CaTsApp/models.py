@@ -120,6 +120,9 @@ class StockSteward(models.Model):
     StockStewardID = models.AutoField(primary_key=True)
     ItemState = models.CharField(max_length = 4, choices = ITEMSTATE_CHOICES)
     ItemCategory = models.CharField(max_length = 4, choices = ITEMCATEGORY_CHOICES)
+    Borrower = models.ForeignKey(User, null = True, on_delete = models.SET_NULL)
+    BorrowDate = models.TimeField(default=timezone.now, null = True)
+    
 
 """
 CREATE TABLE UserProfile (

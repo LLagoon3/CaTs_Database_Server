@@ -46,8 +46,7 @@ class UserProfileViewSet(ViewSet):
 
     @custom_auto_schema_for_create_update(serializer_class, 200)
     def create(self, request):
-        serializer_class = serializer_class
-        _serializers = serializer_class(data = request.data)
+        _serializers = serializers.UserProfileSerializer(data = request.data)
         _serializers.is_valid(raise_exception = True)
         _serializers.save()
         return JsonResponse(_serializers.data)

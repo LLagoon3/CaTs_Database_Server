@@ -36,9 +36,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('Api.urls')),
     path('TestApp/', include('TestApp.urls')),
-    path('FileHosting/', include('FileHosting.urls')),
+    path('filehosting/', include('FileHosting.urls')),
     path('catsapp/', include('CaTsApp.urls')),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name="schema-json"),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
 ]
+
+from django.conf.urls.static import static
+from . import settings
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

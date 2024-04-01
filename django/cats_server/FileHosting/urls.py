@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register('file', views.FileViewSet, basename='file')
+router.register('upload', views.FileViewSet, basename='upload')
 
 urlpatterns = [
     path('', include(router.urls)),

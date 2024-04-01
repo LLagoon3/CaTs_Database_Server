@@ -113,3 +113,17 @@ class APIModelGenericView(generics.ListCreateAPIView,
     permission_classes = [IsAuthenticated]
     queryset = APIModel.objects.all()
     serializer_class = APIModelSerializer
+    
+import subprocess
+
+def backup_database():
+    # 백업 파일 경로 지정
+    backup_file_path = './backup.sql'
+    user_name = 'cats'
+    database_name = 'cats_db'
+    # MySQL 백업 명령 실행
+    command = f"mysqldump -u [{user_name}] -p [{database_name}] > {backup_file_path}"
+    subprocess.run(command, shell=True)
+
+backup_database()
+print('backup_database')

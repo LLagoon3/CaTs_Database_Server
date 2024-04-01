@@ -18,7 +18,7 @@ services:
     ports:
       - "3306:3306"
   django:
-    container_name: django-server
+    container_name: django-server-database
     depends_on:
       - mysql
     healthcheck:
@@ -28,7 +28,7 @@ services:
       timeout: 5s
     build:
       context: ./
-      dockerfile: Dockerfile_django
+      dockerfile: Dockerfile_django_database
     volumes:
       - ./django:/home/
     command: 
