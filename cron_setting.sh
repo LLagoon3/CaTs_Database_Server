@@ -13,8 +13,7 @@ else
 fi
 
 
-mkdir /tmp/mysql
 SCRIPT_DIR=$(pwd)
-{ crontab -l && echo "0 * * * * $SCRIPT_DIR/mysql_backup.sh > /tmp/mysql/mysql_backup.log 2>&1"; } | crontab -
+{ crontab -l && echo "0 * * * * $SCRIPT_DIR/mysql_backup.sh > /tmp/mysql_backup.log 2>&1"; } | crontab -
 sudo usermod -aG docker $USER
 docker exec mysql-server GRANT PROCESS ON *.* TO 'cats'@'localhost'
