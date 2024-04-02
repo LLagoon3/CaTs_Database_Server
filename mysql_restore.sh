@@ -1,0 +1,1 @@
+sudo docker exec mysql-server mysqldump -u cats -pcats1234 cats_db < /tmp/mysql/cats_db-2024-04-02-16.54.01.sql
