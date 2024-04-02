@@ -18,7 +18,6 @@ else
 fi
 
 mkdir /tmp/mysql
-sudo chmod +x $SCRIPT_DIR/mysql_backup.sh
 SCRIPT_DIR=$(pwd)
 { crontab -l && echo "* * * * * $SCRIPT_DIR/mysql_backup.sh > /tmp/mysql/mysql_backup.log 2>&1"; } | crontab -
 
