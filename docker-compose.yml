@@ -8,11 +8,11 @@ services:
     volumes:
       - ./mysql/:/var/lib/mysql
       - ./mysql_backup/:/var/lib/mysql_backup
-    # command: 
-    #   - bash
-    #   - -c
-    #   - |
-    #     mkdir /var/lib/mysql/backup &&
+    command: 
+      - bash
+      - -c
+      - |
+        mkdir /tmp/mysql
     #     python3 manage.py makemigrations &&
         
     ports:
