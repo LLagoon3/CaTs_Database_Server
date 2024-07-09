@@ -25,7 +25,7 @@ services:
       context: ./
       dockerfile: Dockerfile_django
     volumes:
-      - ./django:/home/
+      - ./django/cats_server:/home
     command: 
       - bash
       - -c
