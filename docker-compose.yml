@@ -9,15 +9,23 @@ services:
       - ./mysql/:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - cats_database-network
+
   django:
     container_name: django-server
     depends_on:
       - mysql
+    healthcheck:
+      test: ["CMD", "curl", "-f", "0.0.0.0:3308"]  # db 서비스의 상태를 확인하는 테스트
+      interval: 10s  # 10초마다 테스트 수행
+      retries: 5  # 최대 5번 재시도
+      timeout: 5s
     build:
       context: ./
       dockerfile: Dockerfile_django
     volumes:
-      - ./django:/home/
+      - ./django/cats_server:/home
     command: 
       - bash
       - -c
@@ -32,3 +40,9 @@ services:
       - "8000:8000"
     expose:
       - "8000"
+    networks:
+      - cats_database-network
+    
+networks:
+  cats_database-network:
+    driver: bridge
