@@ -18,3 +18,9 @@ class LoverRelationshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LoverRelationship
         fields = "__all__"
+
+
+class FamilyRelationshipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FamilyRelationship
+        fields = "__all__"
