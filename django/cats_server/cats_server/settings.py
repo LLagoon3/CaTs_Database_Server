@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "KakaoChatBot.apps.KakaochatbotConfig",
     "CaTsApp.apps.CatsappConfig",
     "CatCh.apps.CatchConfig",
     "FileHosting.apps.FilehostingConfig",
